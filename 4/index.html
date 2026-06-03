@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ES">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mallorca TV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <canvas id="heatCanvas" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <div class="header-top">
+      <div class="live-global">
+        <span class="live-pip"></span> EN VIVO
+      </div>
+    </div>
+
+    <div class="title-block">
+      <div class="title-eyebrow">ISLA DE</div>
+      <h1 class="site-title">MALLORCA</h1>
+      <div class="title-rule">
+        <span class="rule-line"></span>
+        <a href="https://www.youtube.com/shorts/g8TOEhQVtSg" target="_blank" rel="noopener" class="title-sub">Do you feel bonita?</a>
+        <span class="rule-line"></span>
+      </div>
+    </div>
+
+    <div class="stamp-wrap" aria-hidden="true">
+      <div class="stamp">BY PHILKLUGE</div>
+    </div>
+  </header>
+
+  <div class="ticker-bar" aria-hidden="true">
+    <div class="ticker-inner" id="tickerInner">
+      <span>CALA MILLOR &nbsp;·&nbsp;</span>
+      <span>PUERTO PORTALS &nbsp;·&nbsp;</span>
+      <span>PALMA CATHEDRAL &nbsp;·&nbsp;</span>
+      <span>CAP DE FORMENTOR &nbsp;·&nbsp;</span>
+      <span>MAGALUF BEACH &nbsp;·&nbsp;</span>
+      <span>ALCÚDIA BAY &nbsp;·&nbsp;</span>
+      <span>SÓLLER VALLEY &nbsp;·&nbsp;</span>
+      <span>PORT DE POLLENÇA &nbsp;·&nbsp;</span>
+      <span>CALA D'OR &nbsp;·&nbsp;</span>
+      <span>VALLDEMOSSA &nbsp;·&nbsp;</span>
+      <span>DEIA &nbsp;·&nbsp;</span>
+      <span>ES TRENC BEACH &nbsp;·&nbsp;</span>
+    </div>
+  </div>
+
+  <div id="playerModal" class="modal" role="dialog" aria-modal="true" aria-label="Video Player" hidden>
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-meta">
+          <span class="modal-live-pip"></span>
+          <span class="modal-live-label">EN VIVO</span>
+          <span class="modal-sep">·</span>
+          <span class="modal-channel-name" id="modalChannelName">Canal</span>
+        </div>
+        <button class="close-btn" id="closeBtn" aria-label="Schließen">✕</button>
+      </div>
+      <div class="player-wrapper">
+        <video id="videoPlayer" controls autoplay playsinline></video>
+        <div class="player-overlay" id="playerOverlay">
+          <div class="loading-ring"></div>
+          <span class="loading-text">Conectando...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="channels-section">
+    <div class="channels-grid" id="channelsGrid" role="list"></div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">MALLORCA TV</div>
+      <div class="footer-copy">©2026 Phil Kluge &nbsp;·&nbsp; Todos los derechos reservados</div>
+      <div class="footer-coords"></div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.7/hls.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

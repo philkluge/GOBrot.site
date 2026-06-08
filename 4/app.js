@@ -208,7 +208,6 @@ function createCard(ch, dotIndex, onStarClick) {
     '</div>' +
     '<div class="card-footer">' +
     '  <div class="card-live"><span class="card-dot"></span>LIVE</div>' +
-    '  <div class="card-play-btn">▶</div>' +
     '</div>' +
     '<div class="card-num" aria-hidden="true">' + ch.num + '</div>';
 

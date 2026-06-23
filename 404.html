@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>404 - Not Found</title>
+        <style>
+            body {
+                background-color: #0a0a0a;
+                color: #ddd;
+                font-family: 'Share Tech Mono', monospace;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+            }
+            .legal-card {
+                background: #121212;
+                border: 1px solid #333;
+                padding: 40px;
+                border-radius: 12px;
+                max-width: 600px;
+                width: 90%;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            }
+            h1 {
+                color: #aa00ff;
+                font-family: 'Orbitron', sans-serif;
+                margin-bottom: 10px;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+            }
+            .legal-block { margin-bottom: 25px; }
+            h2 {
+                color: #fff;
+                font-size: 1.2rem;
+                text-transform: uppercase;
+                margin-bottom: 15px;
+                letter-spacing: 1px;
+            }
+            p {
+                line-height: 1.6;
+                margin-bottom: 30px;
+            }
+            a { color: #00d4ff; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+
+            @media (max-width: 600px) 
+            {
+                .legal-card 
+                {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 12px;
+                    padding: 20px;
+                    box-sizing: border-box;
+                    overflow-y: auto;
+                }
+                body 
+                {
+                    padding: 0;
+                    margin: 10;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <section class="legal-section" aria-labelledby="error-title">
+            <div class="legal-card">
+                <nav class="back-nav">
+                    <a href="/" class="back-btn" data-i18n="err-btn-back" aria-label="Back to main page">← BACK TO MAIN</a>
+                </nav>
+                <h1 id="error-title">404</h1>
+                
+                <div class="legal-block">
+                    <h2 data-i18n="err-404-subtitle">Page Not Found</h2>
+                    <p data-i18n="err-404-text">The requested URL was not found on this server. It might have been moved or deleted.</p>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

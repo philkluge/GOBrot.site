@@ -1,2 +1,0 @@
-# GOBrot.site
-Fun website

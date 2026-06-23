@@ -1,82 +1,161 @@
-<!-- V00 Placeholder -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Placeholder">
-    <meta name="author" content="Placeholder">
-    <meta name="theme-color" content="#000010">
-    
-    <title>Placeholder</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="GOBrot">
+        <meta name="author" content="Phil Kluge">
+        <meta name="theme-color" content="#000000">
+        
+        <title>GOBrot</title>
+        
+        <link rel="icon" type="image/png" href="/SRC/Logo.png">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+        
+        <script>
+            window.THEMES = 
+            [
+                { id: "modern-dark",       name: "Modern Dark",       folder: "Modern Dark" },
+                { id: "modern-light",      name: "Modern Light",      folder: "Modern Light"}
+            ];
 
-<iframe 
-    src="https://play.famobi.com/color-water-sort-3d" 
-    width="100%" 
-    height="600" 
-    frameborder="0" 
-    allowfullscreen="true" 
-    scrolling="no"
-    style="border: none; max-width: 800px; display: block; margin: 0 auto;">
-</iframe>
+            (function () 
+            {
+                var theme = window.THEMES.find(function (t) 
+                { 
+                    return t.id === localStorage.getItem("selectedTheme"); 
+                }) || window.THEMES.find(function (t) { return t.id === "modern-dark"; })
 
+                window.ACTIVE_THEME = theme;
+                document.write('<link rel="stylesheet" href="/Themes/' + encodeURI(theme.folder) + '/index.css">');
+                document.write('<script src="/Themes/' + encodeURI(theme.folder) + '/index.js"><' + '/script>');
+            })();
+        </script>
+        <style>
+            #theme-switcher {
+                position: fixed;
+                top: 16px;
+                right: 16px;
+                z-index: 9999;
+                font-family: 'Share Tech Mono', monospace;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            #theme-switcher label {
+                color: #ffffff;
+                font-size: 0.85rem;
+                letter-spacing: 0.05em;
+                user-select: none;
+            }
+            #theme-switcher select {
+                background: rgba(0, 0, 0, 0);
+                color: #ffffff;
+                border: 0px #000000;
+                padding: 6px 10px;
+                font-family: inherit;
+                font-size: 0.85rem;
+                cursor: pointer;
+                backdrop-filter: blur(4px);
+                background-color: #000000
+            }
 
-<iframe 
-    src="https://zv1y2i8p.play.gamezop.com/g/gTD1yQp3R"
-    seamless="seamless" 
-    allowtransparency="true" 
-    allowfullscreen="true" 
-    frameborder="0" 
-    style="width: 100%;
-    height: 100%;
-    border: 0px;
-</iframe>
-
-
-<iframe
-    src="https://html-classic.itch.zone/html/18040099-1745330/index.html?v=1782190535" 
-    frameborder="0" 
-    allowfullscreen="true" 
-    scrolling="no" 
-    allowtransparency="true" 
-    webkitallowfullscreen="true" 
-    mozallowfullscreen="true" 
-    msallowfullscreen="true" 
-    id="game_drop" 
-    allow="autoplay; 
-    fullscreen *; 
-    geolocation; 
-    microphone; 
-    camera; 
-    midi; 
-    monetization; 
-    xr-spatial-tracking; 
-    gamepad; 
-    gyroscope; 
-    accelerometer; 
-    xr; 
-    cross-origin-isolated; 
-    web-share">
-</iframe>
-
-    
-    
-    <div class="static" id="staticEl" aria-hidden="true"></div>
-
-    <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-content">
-            <h1 id="hero-title" class="title">Placeholder</h1>
-            <div class="title-line"></div>
+            #theme-switcher select:hover,
+            #theme-switcher select:focus {
+                border-color: rgba(0, 0, 0, 0);
+                outline: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="theme-switcher">
+            <select id="theme-select" aria-label="Theme auswählen"></select>
         </div>
-    </section>
-    <script src="app.js"></script>
-</body>
+
+        <script>
+            (function () 
+            {
+                var select = document.getElementById("theme-select");
+
+                window.THEMES.forEach(function (t) 
+                {
+                    var opt = document.createElement("option");
+                    opt.value = t.id;
+                    opt.textContent = t.name;
+                    if (window.ACTIVE_THEME && t.id === window.ACTIVE_THEME.id) 
+                    {
+                        opt.selected = true;
+                    }
+                    select.appendChild(opt);
+                });
+
+                select.addEventListener("change", function () 
+                {
+                    localStorage.setItem("selectedTheme", select.value);
+                    location.reload();
+                });
+            })();
+        </script>
+
+        <canvas id="Canvas" aria-hidden="true"></canvas>
+        <div class="Background" aria-hidden="true"></div>
+        <div class="scanlines" aria-hidden="true"></div>
+        <div class="vignette" aria-hidden="true"></div>
+        <div class="static" id="staticEl" aria-hidden="true"></div>
+
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-content">
+                <h1 id="hero-title" class="title">GOBrot</h1>
+                <div class="title-line"></div>
+                <button 
+                    class="scroll-indicator" 
+                    onclick="document.querySelector('.Sides').scrollIntoView({behavior: 'smooth'})"
+                    aria-label="Scroll to projects section">
+                    <span data-i18n="hero-scroll">▼ More ▼</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="projects" aria-labelledby="projects-title">
+            <h2 id="projects-title" class="section-title" data-i18n="projects-title">Sides</h2>
+            <div class="projects-grid" role="list">
+                
+                <article class="project-card" data-project="MallorcaTv" role="listitem">
+                    <div class="card-glow"></div>
+                    <div class="card-inner">
+                        <h3>Mallorca Tv</h3>
+                        <p data-i18n="proj-fuel-desc">Live streams from Mallorca, Menorca, Ibiza & Formentera</p>
+                        <div class="card-footer">
+                            <button class="tech-tag more-btn" aria-label="More information about Fuel Tracker" data-i18n="btn-more">Open</button>
+                            </div>
+                    </div>
+                </article>
+
+                <article class="project-card" data-project="Games" role="listitem">
+                    <div class="card-glow"></div>
+                    <div class="card-inner">
+                        <h3>Games</h3>
+                        <p data-i18n="proj-fuel-desc">Play Web Games</p>
+                        <div class="card-footer">
+                            <button class="tech-tag more-btn" aria-label="More information about Fuel Tracker" data-i18n="btn-more">Open</button>
+                            </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-line"></div>
+                <div class="footer-links">
+                    <a href="https://philkluge.com/impressum" data-i18n="footer-impressum">Impressum</a>
+                    <p class="copyright"></p>
+                </div>
+                <p class="copyright">©2026 Phil Kluge</p>
+                <p class="rights" data-i18n="footer-rights">All Rights Reserved</p>
+            </div>
+        </footer>
+    </body>
 </html>

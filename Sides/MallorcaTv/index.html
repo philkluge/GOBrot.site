@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -52,12 +53,18 @@
     </div>
   </div>
 
-  <section class="favorites-section" id="favoritesSection" aria-label="Favoriten">
-    <div class="favorites-label">
-      <span class="fav-star-icon">★</span>
-      Favoriten
+  <section class="map-section" aria-label="Mapa de las cámaras en vivo">
+    <div class="map-label">Mapa</div>
+    <div class="map-layout">
+      <div id="mapContainer" class="map-container"></div>
+      <section class="favorites-section" id="favoritesSection" aria-label="Favoritos">
+        <div class="favorites-label">
+          <span class="fav-star-icon">★</span>
+          Favoritos
+        </div>
+        <div class="favorites-grid" id="favoritesGrid" role="list"></div>
+      </section>
     </div>
-    <div class="favorites-grid" id="favoritesGrid" role="list"></div>
   </section>
 
   <div class="favorites-divider" id="favoritesDivider" style="display:none"></div>
@@ -97,6 +104,7 @@
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.7/hls.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

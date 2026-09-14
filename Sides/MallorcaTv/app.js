@@ -1,5 +1,55 @@
 const BASE_URL  = 'https://str2.eivotv.es/';
 const BASE_PATH = '/index.m3u8';
+const OWM_API_KEY = 'bb7df96c14881f536a7bbe0b65eb635c';
+const WEATHER_STORAGE_KEY = 'mallorca_tv_weather_cache';
+const WEATHER_TTL_MS = 2 * 60 * 60 * 1000; // 2 Stunden statt 10 Minuten
+
+
+const CHANNEL_LOCATIONS = {
+  canal_aa: { lat: 39.5057, lng: 2.4429 }, // Illa del Toro, vor Santa Ponsa
+  canal_ab: { lat: 39.5057, lng: 2.4429 }, // Illa del Toro, vor Santa Ponsa
+  canal_ac: { lat: 39.5057, lng: 2.4429 }, // Illa del Toro
+  canal_ad: { lat: 39.7601, lng: 2.8688 }, // Mancor de la Vall
+  canal_ae: { lat: 39.5830, lng: 2.6780 }, // Horta, Palma
+  canal_af: { lat: 39.5698, lng: 3.2094 }, // Manacor
+  canal_ag: { lat: 39.9084, lng: 3.0912 }, // Port de Pollença
+  canal_ah: { lat: 39.8500, lng: 3.1250 }, // Sant Martí / Alcúdia
+  canal_ai: { lat: 38.7359, lng: 1.4225 }, // La Savina, Formentera
+  canal_ak: { lat: 39.9105, lng: 4.2989 }, // Sa Mesquida, Menorca
+  canal_al: { lat: 39.8264, lng: 4.2661 }, // Punta Prima, Menorca
+  canal_am: { lat: 39.7120, lng: 2.9130 }, // Ermita de Santa Magdalena, Inca
+  canal_an: { lat: 39.3390, lng: 2.8240 }, // Cap Blanc
+  canal_ao: { lat: 38.9020, lng: 1.4360 }, // Ses Figueretes, Eivissa
+  canal_ap: { lat: 39.8885, lng: 4.2658 }, // Maó
+  canal_aq: { lat: 39.8778, lng: 4.2892 }, // Es Castell
+  canal_ar: { lat: 40.0177, lng: 3.8933 }, // Cala Morell
+
+  canal_a:  { lat: 39.7011, lng: 3.4342 }, // Capdepera
+  canal_b:  { lat: 39.9580, lng: 3.1900 }, // La Mola, Pollença/Formentor
+  canal_d:  { lat: 39.8280, lng: 4.2470 }, // Cala Torret, Menorca
+  canal_e:  { lat: 39.5560, lng: 2.9830 }, // Puig de Randa
+  canal_f:  { lat: 39.8763, lng: 3.0166 }, // Montaña de Pollença
+  canal_g:  { lat: 39.9834, lng: 4.1000 }, // Monte Toro, Menorca
+  canal_h:  { lat: 39.7089, lng: 2.6928 }, // Jardins d'Alfàbia
+  canal_i:  { lat: 39.9236, lng: 3.0589 }, // Cala Sant Vicenç
+  canal_j:  { lat: 39.5867, lng: 3.3467 }, // S'Illot
+  canal_k:  { lat: 39.6919, lng: 3.3644 }, // Puig de sa Tudossa, Artà
+  canal_l:  { lat: 39.8422, lng: 3.1590 }, // Museu Sa Bassa Blanca, Alcúdia
+  canal_m:  { lat: 39.6942, lng: 3.3489 }, // Artà
+  canal_n:  { lat: 39.4756, lng: 3.1867 }, // Sant Salvador, Felanitx
+  canal_o:  { lat: 38.9660, lng: 1.2136 }, // Puig de sa Talaia, Eivissa
+  canal_p:  { lat: 38.9847, lng: 1.5347 }, // Santa Eulària des Riu
+  canal_q:  { lat: 39.7967, lng: 2.6981 }, // Sóller
+  canal_r:  { lat: 38.6614, lng: 1.5601 }, // La Mola, Formentera
+  canal_s:  { lat: 38.9227, lng: 1.3009 }, // Sant Josep de sa Talaia
+  canal_t:  { lat: 39.6987, lng: 3.4649 }, // Font de sa Cala
+  canal_u:  { lat: 39.8763, lng: 3.0166 }, // Puig de Maria, Pollença
+  canal_v:  { lat: 39.8167, lng: 3.1667 }, // Colònia de Sant Pere
+  canal_w:  { lat: 39.3311, lng: 2.9903 }, // Colònia de Sant Jordi
+  canal_x:  { lat: 39.9328, lng: 3.8394 }, // Cala en Bosch, Menorca
+  canal_y:  { lat: 39.1500, lng: 2.9333 }, // Cabrera
+  canal_z:  { lat: 39.7864, lng: 3.2394 }, // Betlem, Artà
+};
 
 const SET_A_PREFIX     = 'canal_a';
 const SET_A_FIRST_CHAR = 'a';
@@ -149,6 +199,24 @@ function toggleFavorite(id) {
   }
 }
 
+function loadWeatherCache() {
+  if (!HAS_LOCAL_STORAGE) return {};
+  try {
+    const raw = window.localStorage.getItem(WEATHER_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveWeatherCache(cache) {
+  if (!HAS_LOCAL_STORAGE) return;
+  try {
+    window.localStorage.setItem(WEATHER_STORAGE_KEY, JSON.stringify(cache));
+  } catch (e) {}
+}
+
+const weatherCache = loadWeatherCache();
 
 function buildChannels() {
   const channels = [];
@@ -164,6 +232,7 @@ function buildChannels() {
       url:   BASE_URL + id + BASE_PATH,
       num:   String(num).padStart(2, '0'),
       group: 'A',
+      loc:   CHANNEL_LOCATIONS[id] || null,
     });
     num++;
   }
@@ -178,6 +247,7 @@ function buildChannels() {
       url:   BASE_URL + id + BASE_PATH,
       num:   String(num).padStart(2, '0'),
       group: 'B',
+      loc:   CHANNEL_LOCATIONS[id] || null,
     });
     num++;
   }
@@ -232,6 +302,113 @@ function createCard(ch, dotIndex, onStarClick) {
 }
 
 let ALL_CHANNELS = [];
+
+function fetchWeather(id, lat, lng) {
+  const cached = weatherCache[id];
+  if (cached && (Date.now() - cached.time) < WEATHER_TTL_MS) {
+    return Promise.resolve(cached.data);
+  }
+
+  if (!OWM_API_KEY) {
+    return Promise.reject(new Error('missing-api-key'));
+  }
+
+  const url = 'https://api.openweathermap.org/data/2.5/weather' +
+    '?lat=' + lat + '&lon=' + lng +
+    '&units=metric&lang=es&appid=' + OWM_API_KEY;
+
+  return fetch(url)
+    .then(function (res) {
+      if (!res.ok) throw new Error('weather-fetch-failed');
+      return res.json();
+    })
+    .then(function (data) {
+      weatherCache[id] = { data, time: Date.now() };
+      saveWeatherCache(weatherCache);
+      return data;
+    });
+}
+
+function createPopupContent(ch) {
+  const wrap = document.createElement('div');
+  wrap.className = 'map-popup';
+
+  const starred = isFavorite(ch.id);
+
+  wrap.innerHTML =
+    '<div class="popup-header">' +
+    '  <span class="popup-name">' + ch.name + '</span>' +
+    '  <button class="star-btn popup-star-btn' + (starred ? ' starred' : '') + '"' +
+    '    data-id="' + ch.id + '"' +
+    '    aria-label="' + (starred ? 'Aus Favoriten entfernen' : 'Zu Favoriten hinzufügen') + '"' +
+    '  >★</button>' +
+    '</div>' +
+    '<div class="popup-weather" data-role="weather">Wetter wird geladen…</div>' +
+    '<button class="popup-play-btn">▶ Ansehen</button>';
+
+  wrap.querySelector('.star-btn').addEventListener('click', function (e) {
+    e.stopPropagation();
+    const nowStarred = toggleFavorite(ch.id);
+    handleStarClick(ch.id, nowStarred);
+  });
+
+  wrap.querySelector('.popup-play-btn').addEventListener('click', function () {
+    openPlayer(ch.url, ch.name);
+  });
+
+  wrap.loadWeather = function () {
+    const weatherEl = wrap.querySelector('[data-role="weather"]');
+    fetchWeather(ch.id, ch.loc.lat, ch.loc.lng)
+      .then(function (data) {
+        const temp    = Math.round(data.main.temp);
+        const desc    = data.weather[0].description;
+        const iconUrl = 'https://openweathermap.org/img/wn/' + data.weather[0].icon + '.png';
+        weatherEl.innerHTML =
+          '<img class="weather-icon" src="' + iconUrl + '" alt="' + desc + '">' +
+          '<span>' + temp + '°C · ' + desc + '</span>';
+      })
+      .catch(function (err) {
+        weatherEl.textContent = err.message === 'missing-api-key'
+          ? 'No hay API-Key disponible'
+          : 'No hay datos meteorológicos disponibles';
+      });
+  };
+
+  return wrap;
+}
+
+let leafletMap = null;
+
+function initMap(channels) {
+  const container = document.getElementById('mapContainer');
+  if (!container || typeof L === 'undefined') return;
+
+  leafletMap = L.map(container, { attributionControl: true }).setView([39.4, 2.9], 8);
+
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri',
+    maxZoom: 16,
+  }).addTo(leafletMap);
+
+  const markerIcon = L.divIcon({
+    className: 'map-marker',
+    html: '<span class="map-marker-dot"></span>',
+    iconSize: [16, 16],
+  });
+
+  channels.forEach(function (ch) {
+    if (!ch.loc) return;
+    const popupEl = createPopupContent(ch);
+    const marker  = L.marker([ch.loc.lat, ch.loc.lng], { icon: markerIcon })
+      .addTo(leafletMap)
+      .bindPopup(popupEl, { maxWidth: 240 });
+    marker.on('popupopen', function () { popupEl.loadWeather(); });
+  });
+
+  window.addEventListener('load', function () {
+    leafletMap.invalidateSize();
+  });
+}
 
 function refreshFavoritesSection() {
   const section  = document.getElementById('favoritesSection');
@@ -487,4 +664,5 @@ document.addEventListener('DOMContentLoaded', function () {
   ALL_CHANNELS = buildChannels();
   renderMainGrid(ALL_CHANNELS);
   refreshFavoritesSection();
+  initMap(ALL_CHANNELS);
 });

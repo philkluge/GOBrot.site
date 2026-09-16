@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GOBrot Games – Sammlung kostenloser Browser-Games, direkt im Browser spielbar.">
+  <meta name="author" content="Phil Kluge">
+  <meta name="theme-color" content="#0a0b10">
+  <title>Games — GOBrot</title>
+
+  <link rel="icon" type="image/png" href="/SRC/Logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <canvas id="starsCanvas" aria-hidden="true"></canvas>
+  <div class="grid-overlay" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <nav class="back-nav">
+    <a href="/" class="back-btn" aria-label="Zurück zur Hauptseite">← ZURÜCK</a>
+  </nav>
+
+  <header class="games-header">
+    <div class="header-content">
+      <div class="eyebrow">GOBROT PRESENTS</div>
+      <h1 class="games-title">ARCADE</h1>
+      <div class="header-divider"></div>
+      <p class="games-tagline">Eine kuratierte Sammlung freier Browser-Games. Kein Download, kein Installer, direkt hier spielbar.</p>
+    </div>
+  </header>
+
+  <main class="games-section" aria-labelledby="games-list-title">
+    <h2 id="games-list-title" class="section-title">Wähle dein Spiel</h2>
+
+    <!-- Karten werden dynamisch aus der GAMES-Liste in app.js gebaut -->
+    <div class="games-grid" id="gamesGrid" role="list"></div>
+  </main>
+
+  <!-- Fullscreen game overlay -->
+  <div id="gameModal" class="game-modal" role="dialog" aria-modal="true" aria-label="Spiel" hidden>
+    <div class="game-modal-bar">
+      <div class="game-modal-title" id="gameModalTitle">Game</div>
+      <div class="game-modal-actions">
+        <a id="openTabLink" class="modal-icon-btn modal-link-btn" href="#" target="_blank" rel="noopener" aria-label="In neuem Tab öffnen" title="In neuem Tab öffnen">↗</a>
+        <button id="reloadGameBtn" class="modal-icon-btn" aria-label="Spiel neustarten" title="Neustarten">⟳</button>
+        <button id="closeGameBtn" class="modal-icon-btn" aria-label="Spiel schließen" title="Schließen">✕</button>
+      </div>
+    </div>
+    <div class="game-modal-frame-wrap">
+      <iframe id="gameFrame" title="Browser Game" allow="fullscreen" src="about:blank" scrolling="no"></iframe>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-line"></div>
+      <div class="footer-links">
+        <a href="https://philkluge.com/impressum">Impressum</a>
+      </div>
+      <p class="copyright">©2026 Phil Kluge</p>
+      <p class="rights">All Rights Reserved</p>
+      <p class="credit-note">Spiele werden von Drittanbietern eingebettet. Alle Rechte an den jeweiligen Spielen liegen bei ihren Entwicklern.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

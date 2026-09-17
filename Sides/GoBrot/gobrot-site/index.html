@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GoBrot – Brotsorten aus aller Welt, Brotquiz und Brotwissen</title>
+  <meta name="description" content="Das Brotlexikon auf GoBrot.site: über 180 Brotsorten aus aller Welt, das Quiz „Welches Brot bin ich?“ und alles Wissenswerte über Brot.">
+  <meta name="theme-color" content="#1e3d8f">
+  <link rel="canonical" href="https://gobrot.site/">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍞</text></svg>">
+  <link rel="preload" href="fonts/big-shoulders-stencil.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/bitter.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/breads.js" defer></script>
+  <script src="js/app.js" defer></script>
+  <script src="js/quiz.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#lexikon">Zum Brotlexikon springen</a>
+
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="#top" aria-label="GoBrot – zum Seitenanfang">
+        <svg class="brand__mark" viewBox="0 0 40 40" aria-hidden="true">
+          <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="2.5"/>
+          <path d="M9 23c0-6 5-10 11-10s11 4 11 10c0 2-1 3-3 3H12c-2 0-3-1-3-3z" fill="currentColor"/>
+          <path d="M15 17l2 5M20 16l1.5 5.5M25 17l1 5" style="stroke:var(--paper)" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <span class="brand__word">GoBrot</span>
+      </a>
+      <nav class="site-nav" aria-label="Hauptnavigation">
+        <a href="#lexikon">Lexikon</a>
+        <a href="#quiz">Quiz</a>
+        <a href="#wissen">Brotwissen</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero: Mehlsack-Etikett -->
+    <section class="hero" id="top">
+      <div class="wrap">
+        <div class="sack-label">
+          <div class="sack-label__top">
+            <span>GoBrot.site</span>
+            <span>Sorte Nr. 001 bis <span data-bread-count>180</span></span>
+          </div>
+
+          <h1 class="sack-label__title">Brot aus aller Welt</h1>
+
+          <dl class="sack-label__facts">
+            <div><dt>Inhalt</dt><dd><span data-bread-count>180</span> Brotsorten aus sechs Weltregionen</dd></div>
+            <div><dt>Dazu</dt><dd>Ein Quiz, das verrät, welches Brot du bist</dd></div>
+            <div><dt>Außerdem</dt><dd>Geschichte, Zutaten, Mehltypen und Tipps zum Lagern</dd></div>
+            <div><dt>Haltbar</dt><dd>seit über 14.000 Jahren</dd></div>
+          </dl>
+
+          <div class="sack-label__actions">
+            <a class="btn btn--ink" href="#lexikon">Brotsorten ansehen</a>
+            <a class="btn btn--line" href="#quiz">Quiz starten</a>
+          </div>
+
+          <div class="stamp" aria-hidden="true">
+            <span class="stamp__small">Garantiert</span>
+            <span class="stamp__big">ofenfrisch</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lexikon -->
+    <section class="block" id="lexikon" aria-labelledby="lexikon-title">
+      <div class="wrap">
+        <header class="block__head">
+          <h2 id="lexikon-title">Brotlexikon</h2>
+          <p>Vom westfälischen Pumpernickel bis zum äthiopischen Injera: Such nach Namen, Ländern oder Zutaten und tippe ein Brot an, um mehr zu erfahren.</p>
+        </header>
+
+        <div class="toolbar">
+          <label class="search">
+            <span class="visually-hidden">Brotsorten durchsuchen</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <input type="search" id="search" placeholder="z. B. Roggen, Japan oder Sesam" autocomplete="off" enterkeyhint="search">
+          </label>
+          <label class="select">
+            <span class="visually-hidden">Kategorie wählen</span>
+            <select id="filter-kategorie">
+              <option value="">Alle Kategorien</option>
+            </select>
+          </label>
+          <button type="button" class="btn btn--line btn--small" id="random-bread">Zufälliges Brot</button>
+        </div>
+
+        <div class="chips" id="filter-region" role="group" aria-label="Nach Region filtern"></div>
+
+        <p class="result-count" id="result-count" aria-live="polite"></p>
+
+        <ul class="tag-grid" id="bread-grid"></ul>
+
+        <div class="empty" id="bread-empty" hidden>
+          <p>Zu dieser Suche gibt es kein Brot. Versuch es mit einem allgemeineren Begriff wie „Weizen“ oder „Fladen“.</p>
+          <button type="button" class="btn btn--line btn--small" id="filter-reset">Filter zurücksetzen</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz -->
+    <section class="block block--kraft" id="quiz" aria-labelledby="quiz-title">
+      <div class="wrap">
+        <div class="slip" id="quiz-app">
+          <div data-view="start" class="slip__view">
+            <h2 id="quiz-title">Welches Brot bin ich?</h2>
+            <p>Zwölf Fragen zu Urlaub, Frühstück und Freitagabend. Am Ende weißt du, welches der <span data-bread-count>180</span> Brote am besten zu dir passt.</p>
+            <button type="button" class="btn btn--ink" data-quiz-start>Quiz starten</button>
+          </div>
+
+          <div data-view="play" class="slip__view" hidden>
+            <div class="quiz__progress">
+              <p class="quiz__counter" id="quiz-counter" aria-live="polite">Frage 1 von 12</p>
+              <div class="quiz__track" aria-hidden="true"><div class="quiz__bar" id="quiz-bar"></div></div>
+            </div>
+            <h3 class="quiz__question" id="quiz-question" tabindex="-1"></h3>
+            <ul class="quiz__answers" id="quiz-answers"></ul>
+            <button type="button" class="btn btn--text" id="quiz-back">Vorherige Frage</button>
+          </div>
+
+          <div data-view="result" class="slip__view quiz__result" hidden>
+            <p class="quiz__lead">Du bist</p>
+            <h3 class="result-stamp" tabindex="-1"><span id="result-name"></span></h3>
+            <p class="result-title" id="result-title"></p>
+            <p id="result-text"></p>
+            <div class="axes" id="result-axes"></div>
+            <div class="quiz__actions">
+              <button type="button" class="btn btn--ink" id="quiz-open-bread">Mehr über dein Brot</button>
+              <button type="button" class="btn btn--line" id="quiz-share">Ergebnis teilen</button>
+              <button type="button" class="btn btn--text" data-quiz-start>Noch einmal spielen</button>
+            </div>
+            <p class="quiz__note" id="quiz-share-note" aria-live="polite"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Brotwissen -->
+    <section class="block" id="wissen" aria-labelledby="wissen-title">
+      <div class="wrap">
+        <header class="block__head">
+          <h2 id="wissen-title">Brotwissen</h2>
+          <p>Mehl, Wasser, Salz und Zeit – mehr braucht gutes Brot nicht. Hier steht, was dahintersteckt.</p>
+        </header>
+
+        <div class="knowledge">
+          <nav class="knowledge__toc" aria-label="Themen im Brotwissen">
+            <ul>
+              <li><a href="#geschichte">Geschichte</a></li>
+              <li><a href="#zutaten">Zutaten</a></li>
+              <li><a href="#backen">So entsteht Brot</a></li>
+              <li><a href="#mehltypen">Mehltypen</a></li>
+              <li><a href="#leitsaetze">Was draufsteht</a></li>
+              <li><a href="#lagern">Richtig lagern</a></li>
+              <li><a href="#glossar">Glossar</a></li>
+              <li><a href="#fakten">Wusstest du?</a></li>
+            </ul>
+          </nav>
+
+          <div class="knowledge__body">
+            <article class="topic" id="geschichte">
+              <h3>Eine kurze Geschichte des Brotes</h3>
+              <ol class="timeline">
+                <li>
+                  <p class="timeline__when">um 12.400 v. Chr.</p>
+                  <h4>Das älteste bekannte Brot</h4>
+                  <p>In Shubayqa im heutigen Jordanien backen Jäger und Sammler Fladenbrot aus Wildgetreide und Knollen – Jahrtausende bevor der Ackerbau beginnt.</p>
+                </li>
+                <li>
+                  <p class="timeline__when">ab ca. 10.000 v. Chr.</p>
+                  <h4>Getreide wird angebaut</h4>
+                  <p>Im Fruchtbaren Halbmond beginnen Menschen, Einkorn, Emmer und Gerste gezielt zu kultivieren.</p>
+                </li>
+                <li>
+                  <p class="timeline__when">Altes Ägypten</p>
+                  <h4>Brot als Lohn</h4>
+                  <p>Gesäuertes Brot wird in großem Stil gebacken. Brot und Bier dienen Arbeitern als Bezahlung.</p>
+                </li>
+                <li>
+                  <p class="timeline__when">Antikes Rom</p>
+                  <h4>Bäcker wird ein Beruf</h4>
+                  <p>Ab dem 2. Jahrhundert v. Chr. entstehen gewerbliche Bäckereien, und der Staat verteilt Getreide an die Bevölkerung.</p>
+                </li>
+                <li>
+                  <p class="timeline__when">Mittelalter</p>
+                  <h4>Zünfte und strenge Regeln</h4>
+                  <p>Bäckerzünfte wachen über Preis und Gewicht. Wer zu leichte Brote verkaufte, riskierte die „Bäckertaufe“: ein unfreiwilliges Tauchbad.</p>
+                </li>
+                <li>
+                  <p class="timeline__when">19. Jahrhundert</p>
+                  <h4>Helles Brot für alle</h4>
+                  <p>Walzenmühlen und industriell vermehrte Hefe machen feines Mehl und lockeres Brot erschwinglich.</p>
+                </li>
+                <li>
+                  <p class="timeline__when">1928</p>
+                  <h4>Brot in Scheiben</h4>
+                  <p>In Chillicothe, Missouri, wird erstmals maschinell geschnittenes Brot verkauft.</p>
+                </li>
+                <li>
+                  <p class="timeline__when">2014</p>
+                  <h4>Brot als Kulturerbe</h4>
+                  <p>Die Deutsche Brotkultur wird in das bundesweite Verzeichnis des immateriellen Kulturerbes aufgenommen.</p>
+                </li>
+              </ol>
+            </article>
+
+            <article class="topic" id="zutaten">
+              <h3>Vier Zutaten, unzählige Brote</h3>
+              <div class="ingredients">
+                <section>
+                  <h4>Mehl</h4>
+                  <p>Liefert Stärke und Eiweiß. Bei Weizen und Dinkel bildet das Klebereiweiß (Gluten) ein elastisches Gerüst, das Gase festhält. Beim Roggen übernehmen Schleimstoffe, die Pentosane, diese Aufgabe.</p>
+                </section>
+                <section>
+                  <h4>Wasser</h4>
+                  <p>Weckt Enzyme, verbindet Eiweiße und löst das Salz. Je mehr Wasser im Teig, desto offener und saftiger wird meist die Krume.</p>
+                </section>
+                <section>
+                  <h4>Salz</h4>
+                  <p>Sorgt für Geschmack, strafft das Klebergerüst und bremst die Hefe. Üblich sind etwa 2 % bezogen auf die Mehlmenge.</p>
+                </section>
+                <section>
+                  <h4>Triebmittel</h4>
+                  <p>Hefe, Sauerteig, Backferment oder Backpulver erzeugen Gase, die den Teig lockern. Sauerteig bringt zusätzlich Säure und Aroma mit.</p>
+                </section>
+              </div>
+            </article>
+
+            <article class="topic" id="backen">
+              <h3>So entsteht ein Brot</h3>
+              <ol class="steps">
+                <li><h4>Sauerteig oder Vorteig ansetzen</h4><p>Stunden bis Tage vorher reift ein Teil des Mehls mit Wasser und Mikroorganismen. Das bringt später Aroma und Triebkraft.</p></li>
+                <li><h4>Mischen und kneten</h4><p>Alle Zutaten kommen zusammen. Beim Weizenteig baut langes Kneten das Klebergerüst auf, Roggenteig wird nur kurz gemischt.</p></li>
+                <li><h4>Stockgare</h4><p>Der Teig ruht am Stück. Hefen und Bakterien arbeiten, Gase entstehen, Aromen entwickeln sich.</p></li>
+                <li><h4>Formen</h4><p>Der Teig wird geteilt und rund oder lang gewirkt, damit die Oberfläche Spannung bekommt.</p></li>
+                <li><h4>Stückgare</h4><p>Die geformten Teiglinge gehen ein zweites Mal, oft in einem Gärkörbchen.</p></li>
+                <li><h4>Einschneiden und einschießen</h4><p>Einschnitte lenken das Aufgehen im Ofen. Wasserdampf („Schwaden“) hält die Oberfläche anfangs elastisch.</p></li>
+                <li><h4>Backen</h4><p>Die Stärke verkleistert, Eiweiße gerinnen, und an der Oberfläche entstehen durch die Maillard-Reaktion Farbe und Röstaromen. Durchgebacken ist das Brot bei etwa 96 bis 98 °C im Kern.</p></li>
+                <li><h4>Auskühlen</h4><p>Das Brot gibt Dampf ab und die Krume festigt sich. Wer zu früh anschneidet, bekommt eine klitschige Krume.</p></li>
+              </ol>
+            </article>
+
+            <article class="topic" id="mehltypen">
+              <h3>Mehltypen verstehen</h3>
+              <p>Die Typenzahl gibt an, wie viele Milligramm Mineralstoffe in 100 Gramm Mehl-Trockenmasse stecken. Je höher die Zahl, desto mehr Randschichten des Korns sind enthalten: Das Mehl wird dunkler, aromatischer und ballaststoffreicher.</p>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th scope="col">Mehl</th><th scope="col">Type</th><th scope="col">Typische Verwendung</th></tr></thead>
+                  <tbody>
+                    <tr><td>Weizen</td><td>405</td><td>Kuchen, Kekse, Soßen</td></tr>
+                    <tr><td>Weizen</td><td>550</td><td>Brötchen, Baguette, helle Brote</td></tr>
+                    <tr><td>Weizen</td><td>1050</td><td>Mischbrote, kräftige Weizenbrote</td></tr>
+                    <tr><td>Dinkel</td><td>630</td><td>Brötchen, Zöpfe, Feingebäck</td></tr>
+                    <tr><td>Dinkel</td><td>1050</td><td>Dinkelmischbrote</td></tr>
+                    <tr><td>Roggen</td><td>997</td><td>Helle Roggenmischbrote</td></tr>
+                    <tr><td>Roggen</td><td>1150</td><td>Mischbrote, Sauerteigbrote</td></tr>
+                    <tr><td>Roggen</td><td>1370</td><td>Kräftige, dunkle Roggenbrote</td></tr>
+                    <tr><td>Vollkornmehl</td><td>ohne</td><td>Vollkornbrote – das ganze Korn wird vermahlen</td></tr>
+                    <tr><td>Roggenschrot</td><td>ohne</td><td>Pumpernickel, Schwarzbrot</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="note">Österreich und die Schweiz verwenden eigene Bezeichnungen, etwa „W 700“ oder „Ruchmehl“.</p>
+            </article>
+
+            <article class="topic" id="leitsaetze">
+              <h3>Was draufsteht, muss drinstecken</h3>
+              <p>Die Leitsätze für Brot und Kleingebäck im Deutschen Lebensmittelbuch sind kein Gesetz. Sie beschreiben aber, was Kundinnen und Kunden unter einer Bezeichnung erwarten dürfen.</p>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th scope="col">Bezeichnung</th><th scope="col">Anforderung</th></tr></thead>
+                  <tbody>
+                    <tr><td>Weizenbrot</td><td>mindestens 90 % Weizen</td></tr>
+                    <tr><td>Weizenmischbrot</td><td>mehr als 50 %, aber weniger als 90 % Weizen</td></tr>
+                    <tr><td>Roggenmischbrot</td><td>mehr als 50 %, aber weniger als 90 % Roggen</td></tr>
+                    <tr><td>Roggenbrot</td><td>mindestens 90 % Roggen</td></tr>
+                    <tr><td>Dinkelbrot</td><td>mindestens 90 % Dinkel</td></tr>
+                    <tr><td>Vollkornbrot</td><td>mindestens 90 % Vollkornerzeugnisse</td></tr>
+                    <tr><td>Mehrkornbrot</td><td>aus mindestens drei verschiedenen Getreidearten</td></tr>
+                    <tr><td>Pumpernickel</td><td>aus Roggenschrot, mindestens 16 Stunden Backzeit</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+
+            <article class="topic" id="lagern">
+              <h3>Brot richtig lagern</h3>
+              <div class="storage">
+                <section class="storage__col storage__col--do">
+                  <h4>So bleibt es frisch</h4>
+                  <ul>
+                    <li>Im Brottopf aus Ton oder im Brotkasten bei Raumtemperatur aufbewahren.</li>
+                    <li>Mit der Schnittfläche nach unten aufs Brett legen.</li>
+                    <li>In Scheiben geschnitten portionsweise einfrieren. So hält es rund drei Monate.</li>
+                    <li>Altbackenes kurz mit Wasser besprühen und im Ofen aufbacken.</li>
+                    <li>Roggenbrote halten sich länger als reine Weizenbrote.</li>
+                  </ul>
+                </section>
+                <section class="storage__col storage__col--dont">
+                  <h4>Lieber nicht</h4>
+                  <ul>
+                    <li>Im Kühlschrank lagern: Knapp über null Grad altert die Stärke besonders schnell.</li>
+                    <li>Luftdicht in Plastik verpacken: Die Kruste wird weich, und Schimmel hat leichtes Spiel.</li>
+                    <li>Schimmel nur wegschneiden: Das Pilzgeflecht zieht sich unsichtbar durchs Brot. Entsorge lieber das ganze Brot.</li>
+                    <li>Trockenes Brot wegwerfen: Daraus werden Knödel, Arme Ritter, Brotsalat oder Paniermehl.</li>
+                  </ul>
+                </section>
+              </div>
+            </article>
+
+            <article class="topic" id="glossar">
+              <h3>Kleines Brot-Glossar</h3>
+              <dl class="glossary">
+                <div><dt>Anstellgut</dt><dd>Ein Rest reifer Sauerteig, mit dem der nächste Sauerteig angesetzt wird.</dd></div>
+                <div><dt>Autolyse</dt><dd>Mehl und Wasser ruhen vor dem Kneten. Der Teig wird dadurch geschmeidiger.</dd></div>
+                <div><dt>Backferment</dt><dd>Triebmittel auf Basis von Honig und Getreide, das milder säuert als Sauerteig.</dd></div>
+                <div><dt>Brühstück</dt><dd>Mehl, Schrot oder Saaten, mit kochendem Wasser übergossen. Bindet viel Wasser und hält Brot länger frisch.</dd></div>
+                <div><dt>Gare</dt><dd>Die Ruhezeit, in der der Teig durch entstehende Gase aufgeht.</dd></div>
+                <div><dt>Krume</dt><dd>Das weiche Innere des Brotes.</dd></div>
+                <div><dt>Kruste</dt><dd>Die gebräunte äußere Schicht.</dd></div>
+                <div><dt>Ofentrieb</dt><dd>Das schnelle Aufgehen des Teigs in den ersten Backminuten.</dd></div>
+                <div><dt>Poolish</dt><dd>Flüssiger Vorteig aus gleichen Teilen Mehl und Wasser mit sehr wenig Hefe.</dd></div>
+                <div><dt>Quellstück</dt><dd>Körner oder Saaten, die vorab in kaltem Wasser eingeweicht werden.</dd></div>
+                <div><dt>Schwaden</dt><dd>Wasserdampf im Ofen zu Beginn des Backens.</dd></div>
+                <div><dt>Tangzhong</dt><dd>Kochstück aus Asien: Mehl wird mit Flüssigkeit zu einer Paste erhitzt – für besonders weiche Brote.</dd></div>
+                <div><dt>Teigausbeute</dt><dd>Teigmenge im Verhältnis zum Mehl. TA 170 heißt: 70 Teile Wasser auf 100 Teile Mehl.</dd></div>
+              </dl>
+            </article>
+
+            <article class="topic" id="fakten">
+              <h3>Wusstest du?</h3>
+              <ul class="facts">
+                <li>„Kumpan“ und „Kompanie“ gehen auf das lateinische „cum pane“ zurück, „mit Brot“. Ein Kumpan ist also jemand, mit dem man sein Brot teilt.</li>
+                <li>Das englische Wort „lord“ stammt vom altenglischen „hlāfweard“ ab – dem Brotwächter.</li>
+                <li>Im Brotregister des Deutschen Brotinstituts sind mehr als 3.000 Brotspezialitäten verzeichnet.</li>
+                <li>Der 16. Oktober ist Welttag des Brotes, der 5. Mai Tag des Deutschen Brotes.</li>
+                <li>Hongkongs Ananasbrötchen und Japans Melonpan enthalten meist weder Ananas noch Melone. Nur das Muster erinnert daran.</li>
+                <li>Die englische Redewendung „the best thing since sliced bread“ zeigt, wie revolutionär geschnittenes Brot einmal war.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap site-footer__inner">
+      <p class="site-footer__brand">GoBrot.site</p>
+      <p>Das Brotlexikon für alle, die wissen wollen, was sie da eigentlich essen.</p>
+      <p class="site-footer__small">© <span id="year">2026</span> GoBrot</p>
+    </div>
+  </footer>
+
+  <!-- Detailansicht -->
+  <dialog class="bread-dialog" id="bread-dialog" aria-labelledby="dlg-title">
+    <article class="sheet">
+      <button type="button" class="sheet__close" id="dlg-close" aria-label="Schließen">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      </button>
+      <p class="sheet__cat" id="dlg-cat"></p>
+      <h3 class="sheet__title" id="dlg-title"></h3>
+      <p class="sheet__alias" id="dlg-alias"></p>
+      <p class="sheet__text" id="dlg-text"></p>
+      <dl class="sheet__facts">
+        <div><dt>Herkunft</dt><dd id="dlg-land"></dd></div>
+        <div><dt>Region</dt><dd id="dlg-region"></dd></div>
+        <div><dt>Getreide &amp; Zutaten</dt><dd id="dlg-getreide"></dd></div>
+        <div><dt>Triebmittel</dt><dd id="dlg-trieb"></dd></div>
+      </dl>
+      <aside class="sheet__fact" id="dlg-fakt">
+        <h4>Wusstest du?</h4>
+        <p id="dlg-fakt-text"></p>
+      </aside>
+      <nav class="sheet__nav" aria-label="Weitere Brote">
+        <button type="button" class="sheet__step" id="dlg-prev"><small>Vorheriges</small><span></span></button>
+        <button type="button" class="sheet__step sheet__step--next" id="dlg-next"><small>Nächstes</small><span></span></button>
+      </nav>
+    </article>
+  </dialog>
+</body>
+</html>

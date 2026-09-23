@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <title>T.E.D.D — The Bus Driver of TranZit</title>
+  <meta name="description" content="Fan page about T.E.D.D, the robotic bus driver from Call of Duty: Black Ops II Zombies, plus a short history of Call of Duty Zombies.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700;800&family=DotGothic16&family=Black+Ops+One&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="zombies.css">
+  <script>
+    // Apply the saved theme before first paint so the page doesn't flash.
+    try { if (localStorage.getItem("tedd-theme") === "zombies") document.documentElement.dataset.theme = "zombies"; } catch (e) {}
+  </script>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="#top">T.E.D.D</a>
+  <nav aria-label="Sections">
+    <a href="#driver">Driver file</a>
+    <a href="#route">Route</a>
+    <a href="#bus">The bus</a>
+    <a href="#appearances">Appearances</a>
+    <a href="#zombies">Zombies history</a>
+    <a href="#quiz">Quiz</a>
+  </nav>
+  <button type="button" class="theme-toggle" id="themeToggle" aria-pressed="false">Zombies mode</button>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="sign" aria-hidden="true">
+      <span class="sign-line">TRANZIT</span>
+      <div class="sign-matrix">
+        <canvas id="signMatrix"></canvas>
+      </div>
+    </div>
+    <h1>T.E.D.D</h1>
+    <p class="lede">The robot behind the wheel of TranZit's bus in <em>Call of Duty: Black Ops II</em> Zombies.</p>
+  </section>
+
+  <!-- DRIVER FILE -->
+  <section id="driver" class="section">
+    <h2>Driver file</h2>
+    <div class="driver-grid">
+      <div class="prose">
+        <p>T.E.D.D, also known simply as the Bus Driver, runs the bus that loops through TranZit. It carries the Victis crew — Samuel Stuhlinger, Misty Briarton, Marlton Johnson and Russman — between areas cut off by fog, where walking on foot gets you attacked.</p>
+        <p>He's programmed to show some emotion. Climb aboard at a stop and he greets you. Hit him or damage his bus and he threatens and insults you. Keep going and he'll try to throw you out, lock the doors or skip stops. When zombies get onto the bus, he warns the passengers.</p>
+        <p>He looks the part of a machine that's been through the apocalypse: broken metal, torn clothing and a melted plastic face. His eyes glow blue, and turn red when a player makes him angry.</p>
+        <p>His voice comes from Nolan North, who also voices Edward Richtofen in Zombies.</p>
+      </div>
+      <dl class="spec">
+        <div><dt>Also known as</dt><dd>The Bus Driver, Motormouth</dd></div>
+        <div><dt>Debut</dt><dd>TranZit, <em>Black Ops II</em> (2012)</dd></div>
+        <div><dt>Job</dt><dd>Driving the TranZit bus</dd></div>
+        <div><dt>Voice actor</dt><dd>Nolan North</dd></div>
+        <div><dt>Eyes</dt><dd>Blue, Red</dd></div>
+        <div><dt>Latest ride</dt><dd>Ol' Tessie, <em>Black Ops 7</em></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ROUTE -->
+  <section id="route" class="section">
+    <h2>The route</h2>
+    <p class="intro">The bus runs an endless loop on a timer, independent of the rounds. It stops at five locations. Select a stop to read about it.</p>
+
+    <div class="route-grid">
+      <div class="route-map">
+        <svg viewBox="0 0 400 300" role="group" aria-label="Schematic of the TranZit bus loop">
+          <path id="loop" class="road" d="M50,180 L50,90 Q50,50 90,50 L310,50 Q350,50 350,90 L350,210 Q350,250 310,250 L90,250 Q50,250 50,210 Z"/>
+          <path class="road-line" d="M50,180 L50,90 Q50,50 90,50 L310,50 Q350,50 350,90 L350,210 Q350,250 310,250 L90,250 Q50,250 50,210 Z"/>
+
+          <text class="road-label" x="64" y="118">Tunnel</text>
+
+          <g class="stop" data-stop="depot" tabindex="0" role="button" aria-label="Bus Depot">
+            <circle cx="50" cy="180" r="11"/>
+            <text x="68" y="185">Bus Depot</text>
+          </g>
+          <g class="stop" data-stop="diner" tabindex="0" role="button" aria-label="Diner">
+            <circle cx="130" cy="50" r="11"/>
+            <text x="130" y="30" text-anchor="middle">Diner</text>
+          </g>
+          <g class="stop" data-stop="farm" tabindex="0" role="button" aria-label="Farm">
+            <circle cx="250" cy="50" r="11"/>
+            <text x="250" y="30" text-anchor="middle">Farm</text>
+          </g>
+          <g class="stop" data-stop="power" tabindex="0" role="button" aria-label="Power Station">
+            <circle cx="350" cy="150" r="11"/>
+            <text x="332" y="155" text-anchor="end">Power Station</text>
+          </g>
+          <g class="stop" data-stop="town" tabindex="0" role="button" aria-label="Town">
+            <circle cx="210" cy="250" r="11"/>
+            <text x="210" y="282" text-anchor="middle">Town</text>
+          </g>
+
+          <g id="busMarker" class="bus-marker" aria-hidden="true">
+            <rect x="-10" y="-6" width="20" height="12" rx="2"/>
+            <rect class="windshield" x="5" y="-4.5" width="2.5" height="9" rx="1"/>
+          </g>
+        </svg>
+        <p class="map-foot" id="busStatus">Bus waiting at Bus Depot</p>
+      </div>
+
+      <div class="stop-info" id="stopInfo" aria-live="polite">
+        <h3 id="stopName">Bus Depot</h3>
+        <p id="stopText"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE BUS -->
+  <section id="bus" class="section">
+    <h2>The bus</h2>
+    <p class="intro">T.E.D.D decides when the bus moves, but the riders can push him along. Here's how the bus works in TranZit.</p>
+    <ul class="facts">
+      <li><strong>Leaving a stop.</strong> The bus beeps before it pulls out and honks when it starts moving. Keeping the doors closed shortens the wait at a stop.</li>
+      <li><strong>Upgrades.</strong> It has two doors, repairable barrier windows and a buildable hatch that gives access to the roof. Parts scattered around the map can be attached to upgrade it.</li>
+      <li><strong>Zombies on board.</strong> Zombies chase the bus, climb onto the roof and break in through the windows, the hatch and even the windshield. Once it's moving, they can't get in through the doors.</li>
+      <li><strong>Breakdowns.</strong> The Avogadro can latch onto the bus and shut it down unless someone knifes it off. An EMP grenade also stops it. Placing a Turbine gets it going again.</li>
+      <li><strong>Onboard weapon.</strong> A B23R burst pistol can be bought inside the bus for 1,000 points.</li>
+      <li><strong>Roof riding.</strong> Watch out for the road signs in the tunnel out of the Bus Depot. They can knock you off the roof.</li>
+      <li><strong>Power-ups.</strong> A power-up that drops inside the bus stays where it landed. Grab it before the bus drives off without it.</li>
+    </ul>
+  </section>
+
+  <!-- APPEARANCES -->
+  <section id="appearances" class="section">
+    <h2>Beyond TranZit</h2>
+    <p class="intro">T.E.D.D has outlived his bus route. He belongs to both the Aether story and the Dark Aether saga, and keeps turning up across the series.</p>
+    <ul class="appearances">
+      <li>
+        <span class="game">Black Ops II <span class="year">2012</span></span>
+        <span>TranZit. His original job: driving the bus that links the whole map.</span>
+      </li>
+      <li>
+        <span class="game">Call of Duty: Zombies <span class="year">comic</span></span>
+        <span>Appears in the Call of Duty: Zombies comic series.</span>
+      </li>
+      <li>
+        <span class="game">Black Ops 4 <span class="year">2018</span></span>
+        <span>Shows up on Alpha Omega and in Blackout. On the multiplayer map Remnant he sits at the wheel of the bus, which is parked and can be fought inside.</span>
+      </li>
+      <li>
+        <span class="game">Call of Duty: Mobile and Warzone 2.0</span>
+        <span>Both games include him as well.</span>
+      </li>
+      <li>
+        <span class="game">Black Ops 7 <span class="year">2025</span></span>
+        <span>Ashes of the Damned, a spiritual successor to TranZit. Players find his head in the Server Room at Janus Tower Plaza and install it in a beat-up pickup truck, Ol' Tessie. He's the truck's first upgrade and comments on the players' driving for the rest of the match. He also appears on Totenreich.</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ZOMBIES HISTORY -->
+  <section id="zombies" class="section">
+    <h2>Call of Duty Zombies, 2008 to today</h2>
+    <p class="intro">Zombies started as a hidden bonus in <em>World at War</em>: survive wave after wave of undead in a single bunker. It grew into a mode with its own characters, story and some of the most elaborate Easter eggs in gaming.</p>
+
+    <h3 class="sub">The basics</h3>
+    <dl class="glossary">
+      <div><dt>Rounds</dt><dd>Zombies come in rounds that get tougher each time. Classic maps last as long as you survive.</dd></div>
+      <div><dt>Points</dt><dd>Earned by shooting and killing zombies, and spent on doors, wall weapons and perks.</dd></div>
+      <div><dt>Mystery Box</dt><dd>Pay for a random weapon, which could be a Wonder Weapon or something useless.</dd></div>
+      <div><dt>Perk-a-Colas</dt><dd>Drinks like Juggernog and Quick Revive that give lasting boosts.</dd></div>
+      <div><dt>Pack-a-Punch</dt><dd>The machine that upgrades your weapons.</dd></div>
+      <div><dt>Wonder Weapons</dt><dd>Experimental weapons like the Ray Gun, or TranZit's Jet Gun.</dd></div>
+      <div><dt>Buildables</dt><dd>Parts you collect and assemble at a workbench. TranZit's Turbine, Zombie Shield and Jet Gun are all built this way.</dd></div>
+      <div><dt>Easter eggs</dt><dd>Hidden main quests that move the story forward. TranZit's is known as Tower of Babble.</dd></div>
+    </dl>
+
+    <h3 class="sub">Timeline</h3>
+    <ol class="timeline">
+      <li>
+        <span class="t-year">2008</span>
+        <div><p class="t-game">World at War</p><p>Nacht der Untoten, Verrückt, Shi No Numa, Der Riese. The original crew: Dempsey, Nikolai, Takeo and Richtofen.</p></div>
+      </li>
+      <li>
+        <span class="t-year">2010</span>
+        <div><p class="t-game">Black Ops</p><p>Kino der Toten, "Five", Ascension, Call of the Dead, Shangri-La, Moon.</p></div>
+      </li>
+      <li>
+        <span class="t-year">2012</span>
+        <div><p class="t-game">Black Ops II</p><p>TranZit, Die Rise, Mob of the Dead, Buried, Origins. TranZit introduces the Victis crew, T.E.D.D and the bus. Grief mode debuts too.</p></div>
+      </li>
+      <li>
+        <span class="t-year">2015</span>
+        <div><p class="t-game">Black Ops III</p><p>Shadows of Evil, The Giant, Der Eisendrache, Zetsubou No Shima, Gorod Krovi, Revelations.</p></div>
+      </li>
+      <li>
+        <span class="t-year">2018</span>
+        <div><p class="t-game">Black Ops 4</p><p>IX, Voyage of Despair, Blood of the Dead, Classified, Dead of the Night, Ancient Evil, Alpha Omega, Tag der Toten.</p></div>
+      </li>
+      <li>
+        <span class="t-year">2020</span>
+        <div><p class="t-game">Black Ops Cold War</p><p>The Dark Aether story begins. Die Maschine, Firebase Z, Mauer der Toten, Forsaken, plus the larger Outbreak mode.</p></div>
+      </li>
+      <li>
+        <span class="t-year">2023</span>
+        <div><p class="t-game">Modern Warfare III</p><p>An open-world, extraction-style take on Zombies.</p></div>
+      </li>
+      <li>
+        <span class="t-year">2024</span>
+        <div><p class="t-game">Black Ops 6</p><p>Round-based Zombies returns with Liberty Falls and Terminus.</p></div>
+      </li>
+      <li>
+        <span class="t-year">2025</span>
+        <div><p class="t-game">Black Ops 7</p><p>Ashes of the Damned brings back the TranZit idea: a big map, fog between areas and a vehicle to cross it. T.E.D.D is back, this time powering Ol' Tessie.</p></div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="section">
+    <h2>How well do you know T.E.D.D?</h2>
+    <p class="intro" id="qIntro">Everything you need is on this page.</p>
+    <div class="quiz" id="quizBox">
+      <div class="q-head">
+        <p class="q-count" id="qCount"></p>
+        <p class="q-score" id="qScore"></p>
+      </div>
+      <ol class="q-progress" id="qProgress" aria-hidden="true"></ol>
+      <p class="q-text" id="qText"></p>
+      <div class="q-options" id="qOptions"></div>
+      <p class="q-feedback" id="qFeedback" aria-live="polite"></p>
+      <div class="q-review" id="qReview" hidden></div>
+      <button type="button" id="qNext" class="q-next" hidden>Next question</button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>Unofficial fan page. Call of Duty® and Black Ops® are trademarks of Activision Publishing, Inc. Not affiliated with or endorsed by Activision or Treyarch.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

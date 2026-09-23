@@ -151,9 +151,18 @@ class ProjectCardHandler {
             const projectName  = card.dataset.project;
             const downloadPath = card.dataset.download;
 
+            // Sides can live in nested folders (e.g. Sides/TheKronorium/T.E.D.D/),
+            // so a card may name its own target via data-href. Older cards fall
+            // back to Sides/<name>/index.html.
+            const target = card.dataset.href || `/Sides/${projectName}/index.html`;
+
+            // Real links (e.g. the "Open" button) navigate on their own,
+            // which keeps ctrl/middle-click working.
+            if (e.target.closest('a[href]')) return;
+
             if (e.target.classList.contains('more-btn')) {
                 e.stopPropagation();
-                window.location.href = `Sides/${projectName}/index.html`;
+                window.location.href = target;
                 return;
             }
 
@@ -163,8 +172,7 @@ class ProjectCardHandler {
                 return;
             }
 
-
-            window.location.href = `Sides/${projectName}/index.html`;
+            window.location.href = target;
         });
     }
 

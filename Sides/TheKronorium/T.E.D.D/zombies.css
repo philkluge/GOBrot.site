@@ -1,0 +1,326 @@
+/* ==========================================================
+   Zombies theme
+   Everything here only applies with <html data-theme="zombies">.
+   Same content, different mood: blood red, rusted metal,
+   typewriter intel files and a flickering round-counter title.
+   ========================================================== */
+
+[data-theme="zombies"] {
+  --bg: #0b0908;
+  --panel: #16110f;
+  --line: #3b2923;
+  --road: #2a211d;
+  --text: #e8dfd2;
+  --muted: #a08f80;
+  --amber: #d4291c;   /* main accent: blood red */
+  --eye: #8cff5a;     /* correct / focus: Element 115 green */
+  --anger: #ff8a1f;   /* wrong answers */
+  --rust: #7a3a1c;
+  --bone: #e8dfd2;
+
+  --f-head: "Black Ops One", "Impact", "Arial Narrow", sans-serif;
+  --f-type: "Special Elite", "Courier New", monospace;
+
+  scroll-padding-top: calc(4.5rem + env(safe-area-inset-top, 0px));
+}
+
+/* ---------- Page background: grain, vignette, red fog ---------- */
+[data-theme="zombies"] body {
+  background:
+    radial-gradient(120% 80% at 50% 110%, rgba(140, 20, 10, .22), transparent 60%),
+    radial-gradient(140% 100% at 50% 0%, transparent 55%, rgba(0, 0, 0, .7)),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+[data-theme="zombies"] body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: .09;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+[data-theme="zombies"] ::selection { background: var(--amber); color: #fff; }
+
+[data-theme="zombies"] h1,
+[data-theme="zombies"] h2,
+[data-theme="zombies"] h3 {
+  font-weight: 400;
+  letter-spacing: .02em;
+}
+
+/* ---------- Top bar ---------- */
+[data-theme="zombies"] .topbar {
+  background: rgba(11, 9, 8, .94);
+  border-bottom: 2px solid var(--amber);
+  box-shadow: 0 6px 24px rgba(212, 41, 28, .15);
+}
+
+[data-theme="zombies"] .brand {
+  font-weight: 400;
+  color: var(--amber);
+  text-shadow: 0 0 10px rgba(212, 41, 28, .6);
+}
+
+[data-theme="zombies"] .topbar nav a {
+  font-family: var(--f-type);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: .85rem;
+}
+[data-theme="zombies"] .topbar nav a:hover { color: var(--amber); }
+
+/* ---------- Sections become rounds ---------- */
+[data-theme="zombies"] main { counter-reset: round; }
+
+[data-theme="zombies"] .section {
+  counter-increment: round;
+  border-top: 0;
+  position: relative;
+}
+
+/* Torn, blood-streaked divider instead of a hairline */
+[data-theme="zombies"] .section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: clamp(1rem, 4vw, 3rem);
+  right: clamp(1rem, 4vw, 3rem);
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--amber) 15%, #5c0d07 50%, var(--amber) 85%, transparent);
+  opacity: .55;
+}
+
+[data-theme="zombies"] .section h2 {
+  font-size: clamp(2rem, 5.5vw, 3.2rem);
+  color: var(--bone);
+  text-shadow: 3px 3px 0 #000;
+}
+
+[data-theme="zombies"] .section h2::before {
+  content: "Round " counter(round);
+  display: block;
+  margin-bottom: .4rem;
+  font-family: var(--f-type);
+  font-size: .95rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--amber);
+  text-shadow: none;
+}
+
+[data-theme="zombies"] .intro { font-family: var(--f-type); font-size: 1rem; }
+
+/* ---------- Hero ---------- */
+[data-theme="zombies"] .hero::before {
+  background:
+    radial-gradient(60% 50% at 20% 80%, rgba(180, 30, 15, .16), transparent 70%),
+    radial-gradient(50% 40% at 85% 25%, rgba(140, 255, 90, .05), transparent 70%);
+}
+
+[data-theme="zombies"] .hero h1 {
+  font-weight: 400;
+  color: var(--amber);
+  text-shadow:
+    0 0 18px rgba(212, 41, 28, .55),
+    4px 4px 0 #2a0402;
+  animation: roundFlicker 6s infinite;
+}
+
+/* The round-change flicker from the in-game counter */
+@keyframes roundFlicker {
+  0%, 91%, 100% { opacity: 1; }
+  92% { opacity: .35; }
+  93% { opacity: 1; }
+  95% { opacity: .5; }
+  96% { opacity: 1; }
+}
+
+[data-theme="zombies"] .lede { font-size: clamp(1.1rem, 2.2vw, 1.3rem); }
+
+[data-theme="zombies"] .sign {
+  background: linear-gradient(160deg, #3b2219, #1c120e 55%, #2b1710);
+  border: 3px solid #4a2c1f;
+  border-radius: 2px;
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, .8),
+    inset 0 0 30px rgba(122, 58, 28, .35),
+    0 12px 30px rgba(0, 0, 0, .6);
+}
+
+[data-theme="zombies"] .sign-line {
+  font-family: var(--f-type);
+  color: var(--bone);
+  opacity: .55;
+}
+
+/* ---------- Rusted metal panels with cut corners ---------- */
+[data-theme="zombies"] .spec,
+[data-theme="zombies"] .route-map,
+[data-theme="zombies"] .quiz {
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background:
+    linear-gradient(180deg, rgba(122, 58, 28, .12), transparent 40%),
+    var(--panel);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, .6), 0 10px 30px rgba(0, 0, 0, .45);
+  clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+}
+
+/* ---------- Driver file as a classified intel sheet ---------- */
+[data-theme="zombies"] .spec { position: relative; }
+
+[data-theme="zombies"] .spec::after {
+  content: "Classified";
+  position: absolute;
+  top: .9rem;
+  right: .8rem;
+  padding: .1rem .5rem;
+  font-family: var(--f-type);
+  font-size: .8rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--amber);
+  border: 2px solid var(--amber);
+  transform: rotate(8deg);
+  opacity: .75;
+  pointer-events: none;
+}
+
+[data-theme="zombies"] .spec dt {
+  font-family: var(--f-type);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .78rem;
+}
+
+/* ---------- Route map ---------- */
+[data-theme="zombies"] .road { stroke: var(--road); }
+[data-theme="zombies"] .road-line { stroke: rgba(212, 41, 28, .35); }
+[data-theme="zombies"] .road-label { font-family: var(--f-type); font-style: normal; }
+
+[data-theme="zombies"] .stop circle { fill: var(--bg); }
+[data-theme="zombies"] .stop text {
+  font-family: var(--f-head);
+  font-weight: 400;
+  font-size: 15px;
+}
+
+[data-theme="zombies"] .bus-marker rect { fill: #e0a526; }
+[data-theme="zombies"] .map-foot { font-family: var(--f-type); }
+
+[data-theme="zombies"] .stop.has-bus circle { animation-name: stopPulseRed; }
+
+@keyframes stopPulseRed {
+  from { stroke: var(--amber); }
+  to   { stroke: #ff9a8f; }
+}
+
+[data-theme="zombies"] .stop-info h3 {
+  font-weight: 400;
+  text-shadow: 0 0 12px rgba(212, 41, 28, .4);
+}
+
+/* ---------- Facts, appearances, glossary ---------- */
+[data-theme="zombies"] .facts strong,
+[data-theme="zombies"] .game,
+[data-theme="zombies"] .timeline .t-game {
+  font-weight: 400;
+}
+
+[data-theme="zombies"] .facts li,
+[data-theme="zombies"] .appearances li,
+[data-theme="zombies"] .glossary > div {
+  border-top: 1px dashed var(--line);
+}
+
+[data-theme="zombies"] .year,
+[data-theme="zombies"] .glossary dt,
+[data-theme="zombies"] .q-count,
+[data-theme="zombies"] .q-score {
+  font-family: var(--f-type);
+  letter-spacing: .04em;
+}
+
+[data-theme="zombies"] .sub {
+  font-weight: 400;
+  color: var(--amber);
+}
+
+/* ---------- Timeline ---------- */
+[data-theme="zombies"] .timeline::before {
+  background: linear-gradient(var(--amber), #3b0906);
+  opacity: .6;
+}
+
+[data-theme="zombies"] .timeline li::after {
+  border-radius: 0;
+  transform: rotate(45deg);
+  background: var(--amber);
+  border-color: #3b0906;
+}
+
+[data-theme="zombies"] .t-year {
+  font-weight: 400;
+  text-shadow: 0 0 10px rgba(212, 41, 28, .45);
+}
+
+/* ---------- Buttons: stenciled, glowing on hover ---------- */
+[data-theme="zombies"] button {
+  font-family: var(--f-type);
+  font-weight: 400;
+  letter-spacing: .03em;
+  background: #120d0b;
+  border-radius: 0;
+  border-color: var(--line);
+}
+
+[data-theme="zombies"] button:hover:not(:disabled) {
+  border-color: var(--amber);
+  box-shadow: 0 0 14px rgba(212, 41, 28, .35);
+}
+
+[data-theme="zombies"] .q-text { font-weight: 400; }
+
+[data-theme="zombies"] .q-options button.correct {
+  box-shadow: 0 0 14px rgba(140, 255, 90, .25);
+}
+
+[data-theme="zombies"] .q-progress li { border-radius: 0; }
+
+[data-theme="zombies"] .q-options kbd {
+  border-radius: 0;
+  font-family: var(--f-type);
+}
+
+/* ---------- Footer ---------- */
+[data-theme="zombies"] .footer {
+  border-top: 2px solid #3b0906;
+  font-family: var(--f-type);
+  font-size: .85rem;
+}
+
+/* ---------- Theme switch (both themes) ---------- */
+.theme-toggle {
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: .35rem .7rem;
+  font-size: .85rem;
+  white-space: nowrap;
+}
+
+[data-theme="zombies"] .theme-toggle {
+  color: var(--amber);
+  border-color: var(--amber);
+}
+
+@media (max-width: 520px) {
+  [data-theme="zombies"] .spec::after { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="zombies"] .hero h1 { animation: none; }
+}

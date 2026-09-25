@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GOBrot Emulator – Retro-Konsolen-Emulator im Browser, powered by EmulatorJS.">
+  <meta name="author" content="Phil Kluge">
+  <meta name="theme-color" content="#0a0b10">
+  <title>Emulator — GOBrot</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <canvas id="starsCanvas" aria-hidden="true"></canvas>
+  <div class="grid-overlay" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <nav class="back-nav">
+    <a href="../../index.html" class="back-btn" aria-label="Zurück zur Hauptseite">← ZURÜCK</a>
+  </nav>
+
+  <header class="emu-header">
+    <div class="header-content">
+      <div class="eyebrow">GOBROT PRESENTS</div>
+      <h1 class="emu-title">EMULATOR</h1>
+      <div class="header-divider"></div>
+      <p class="emu-tagline">Retro-Konsolen direkt im Browser — powered by EmulatorJS. Lade dein eigenes ROM-File hoch und leg los.</p>
+    </div>
+  </header>
+
+  <main class="emu-section" aria-labelledby="emu-setup-title">
+
+    <!-- Setup Panel -->
+    <section class="setup-panel" id="setupPanel">
+      <h2 id="emu-setup-title" class="section-title">Setup</h2>
+
+      <div class="setup-card">
+        <div class="field">
+          <label for="systemSelect">System</label>
+          <select id="systemSelect">
+            <option value="nes">Nintendo (NES)</option>
+            <option value="snes">Super Nintendo (SNES)</option>
+            <option value="n64">Nintendo 64</option>
+            <option value="gb">Game Boy</option>
+            <option value="gbc">Game Boy Color</option>
+            <option value="gba">Game Boy Advance</option>
+            <option value="nds">Nintendo DS</option>
+            <option value="segaMS">Sega Master System</option>
+            <option value="segaGG">Sega Game Gear</option>
+            <option value="segaMD">Sega Genesis / Mega Drive</option>
+            <option value="segaCD">Sega CD</option>
+            <option value="segaSaturn">Sega Saturn</option>
+            <option value="psx">PlayStation</option>
+            <option value="atari2600">Atari 2600</option>
+            <option value="atari7800">Atari 7800</option>
+            <option value="arcade">Arcade (MAME)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="romInput">ROM-Datei</label>
+          <label class="file-drop" for="romInput" id="fileDropLabel">
+            <span id="fileDropText">Datei auswählen oder hierher ziehen</span>
+            <input type="file" id="romInput" accept="*">
+          </label>
+        </div>
+
+        <button class="play-btn start-btn" id="startBtn" disabled>
+          <span>Emulator starten</span>
+          <span class="play-icon">▶</span>
+        </button>
+
+        <p class="legal-note">
+          Es werden keine ROMs bereitgestellt. Lade ausschließlich Dateien hoch, an denen du die
+          entsprechenden Rechte besitzt (z.&nbsp;B. Sicherungskopien eigener Cartridges/Discs).
+          Alle Dateien werden ausschließlich lokal in deinem Browser verarbeitet und nirgendwo hochgeladen.
+        </p>
+      </div>
+    </section>
+
+    <!-- Emulator Panel -->
+    <section class="emu-panel" id="emuPanel" hidden>
+      <div class="emu-bar">
+        <div class="emu-bar-title" id="emuBarTitle">Emulator</div>
+        <div class="emu-bar-actions">
+          <button id="fullscreenBtn" class="modal-icon-btn" aria-label="Vollbild" title="Vollbild">⛶</button>
+          <button id="resetBtn" class="modal-icon-btn" aria-label="Neues Spiel laden" title="Neues Spiel laden">⟲</button>
+        </div>
+      </div>
+      <div id="game" class="emu-frame-wrap"></div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-line"></div>
+      <div class="footer-links">
+        <a href="https://philkluge.com/impressum">Impressum</a>
+      </div>
+      <p class="copyright">©2026 Phil Kluge</p>
+      <p class="rights">All Rights Reserved</p>
+      <p class="credit-note">Emulation powered by <a href="https://emulatorjs.org" target="_blank" rel="noopener">EmulatorJS</a> (Open Source). Es werden keine ROM-Dateien angeboten oder gespeichert.</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
